@@ -21,4 +21,6 @@ npm run lint
 ```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+对VUE的学习与尝试
+
+1.1 学习vue布局 及 样式调整
