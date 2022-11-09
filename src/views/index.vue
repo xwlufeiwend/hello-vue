@@ -1,5 +1,7 @@
 <template>
-    首页测试
+    <div>
+        第二页   
+    </div>
 </template>
 
 <script>
