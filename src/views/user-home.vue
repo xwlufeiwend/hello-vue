@@ -21,7 +21,18 @@
         methods:{
             to2:function(){
                 console.log('to2');
-                this.$router.push('/index');
+                const sm2 = require('sm-crypto').sm2;
+                let gk = sm2.generateKeyPairHex();
+                let publicKey = gk.publicKey;
+                let privateKey = gk.privateKey;
+                console.log(publicKey + "  "+ privateKey);
+                let data = '今天又是一个熬夜的一天！';
+
+                let encryptData = sm2.doEncrypt(data, publicKey, 1);
+                console.log('加密数据', encryptData);
+                let sourceData = sm2.doDecrypt(encryptData, privateKey, 1);
+                console.log('解密数据', sourceData);
+                //this.$router.push('/index');
             }
         }
     }
