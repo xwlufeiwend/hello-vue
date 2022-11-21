@@ -1,12 +1,17 @@
 <template>
     <div>
-        <p>首页测试</p>
+        <p>日期：{{nowdate}}</p>
+        <p>今天天气：{{tq}}--------{{wd}}</p>
+        <p>{{humidness}}</p>
+        <p>{{weather.kqzl}}</p>
         <p>你好{{username}},我今年{{age}}</p>
         <p>{{message}}</p>
         <!-- <van-button @click="getInfo()" type="default" round >请求信息</van-button> -->
         <button @click="getInfo()">请求信息</button>
         <button @click="to2()">第二页</button>
         <button @click="getWeiBoList()">获取热搜</button>
+        <!-- <button @click="getWeather()">获取天气</button> -->
+
         <ol>
             <li v-for="(value, index) in weiboList" :key="index" style="margin-top:10px;">
                 <span style="margin-right:15px">{{index + 1}}</span><a :href="'https://s.weibo.com/'+value.href" target="_blank">{{value.topName}}-----{{value.rank}}</a>
@@ -16,8 +21,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+// import axios from 'axios';
+import axios from '@/main';
     export default {
         data(){
             return {
@@ -26,13 +31,43 @@ import axios from 'axios';
                 userId: '1002xw',
                 message: '',
                 weiboList:{},
-                status: false
+                status: false,
+                weather: {},
+                nowdate: "",
+                wd:"",
+                tq:"",
+                humidness:''
             }
         },
         created(){
             console.log('???');
+            this.getWeather();
         },
         methods:{
+            //请求后台天气接口 获取天气信息
+            getWeather: function(){
+                let date = new Date();
+                //拼接日期字符串
+                let dateStr = date.getFullYear() + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1):(date.getMonth() + 1)) + '-' + (date.getDate() < 10 ? '0' + date.getDate():date.getDate());
+                // this.weather = dateStr;
+                console.log('getDate', dateStr);
+                axios.get('/weather',{
+                    params: {
+                        dateStr
+                    }
+                }).then(res => {
+                    let weather = res.data.weather;
+                    this.weather = weather;
+                    this.nowdate = weather.week;
+                    this.wd = weather.nowTemperature;
+                    this.tq = weather.tq;
+                    this.humidness = weather.shidu.humidness;
+                    console.log('weather', weather);
+                }).catch(err => {
+                    console.log(err);
+                })
+
+            },
             to2:function(){
                 console.log('to2');
                 const sm2 = require('sm-crypto').sm2;
@@ -49,7 +84,7 @@ import axios from 'axios';
                 //this.$router.push('/index');
             },
             getInfo:function(){
-                axios.get('http://127.0.0.1:8090/index',{
+                axios.get('/index',{
                     params:{
                         userId: this.userId
                     }
@@ -61,7 +96,7 @@ import axios from 'axios';
                 })
             },
             getWeiBoList: function(){
-                axios.get('http://127.0.0.1:8090/list').then(res => {
+                axios.get('/list').then(res => {
                     console.log('getWeiBoList', res.data);
                     this.weiboList = res.data.weiboTopList;
                     }).catch(err =>{
