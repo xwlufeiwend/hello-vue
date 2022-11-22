@@ -6,7 +6,7 @@
         <p>{{weather.kqzl}}</p>
         <p>你好{{username}},我今年{{age}}</p>
         <p>{{message}}</p>
-        <!-- <van-button @click="getInfo()" type="default" round >请求信息</van-button> -->
+        <van-button @click="getInfo()" type="success" round >请求信息</van-button>
         <button @click="getInfo()">请求信息</button>
         <button @click="to2()">第二页</button>
         <button @click="getWeiBoList()">获取热搜</button>
@@ -21,9 +21,12 @@
 </template>
 
 <script>
-// import axios from 'axios';
-import axios from '@/main';
+import axios from 'axios';
+import {Button} from 'vant';
     export default {
+        components:{
+            [Button.name]:Button
+        },
         data(){
             return {
                 username: 'xiongwei',
