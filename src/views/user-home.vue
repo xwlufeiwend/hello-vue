@@ -59,8 +59,9 @@ import {Button} from 'vant';
                         dateStr
                     }
                 }).then(res => {
-                    let weather = res.data.weather;
-                    this.weather = weather;
+                    console.log(res.data.weather);
+                    let weather = JSON.parse(res.data.weather);
+                    this.weather = res.data.weather;
                     this.nowdate = weather.week;
                     this.wd = weather.nowTemperature;
                     this.tq = weather.tq;
@@ -100,9 +101,11 @@ import {Button} from 'vant';
             },
             getWeiBoList: function(){
                 axios.get('/list').then(res => {
-                    console.log('getWeiBoList', res.data);
-                    this.weiboList = res.data.weiboTopList;
-                    }).catch(err =>{
+                    console.log(res.data);
+                    // this.weiboList = res.data.weiboList;
+                    this.weiboList = JSON.parse(res.data.weiboTopList).weiBoList;  
+                    // this.weiboList = res.data.weiboTopList.weiBoList;
+                }).catch(err =>{
                         console.log(err);
                     })
             }
