@@ -102,8 +102,8 @@ import {Button} from 'vant';
             getWeiBoList: function(){
                 axios.get('/list').then(res => {
                     console.log(res.data);
-                    // this.weiboList = res.data.weiboList;
-                    this.weiboList = JSON.parse(res.data.weiboTopList).weiBoList;  
+                    this.weiboList = res.data.weiboList;
+                    // this.weiboList = JSON.parse(res.data.weiboTopList).weiBoList;  
                     // this.weiboList = res.data.weiboTopList.weiBoList;
                 }).catch(err =>{
                         console.log(err);
