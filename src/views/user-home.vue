@@ -87,6 +87,7 @@ import {Button} from 'vant';
                 console.log('解密数据', sourceData);
                 //this.$router.push('/index');
             },
+            
             getInfo:function(){
                 axios.get('/index',{
                     params:{
